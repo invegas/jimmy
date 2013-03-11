@@ -12,16 +12,33 @@
 			/*You can use any kind of background here.*/
 			background: #6b92b9;
 			position: relative;
+			overflow-y: hidden;
 		}
 		canvas {
+			position: fixed;
+			left: 0;
+			top: 0;
 			display: block;
 		}
 		.ground {
-			background: url("css/images/texture.jpg") repeat;
+			/*background: url("css/images/texture.jpg") repeat;*/
+			background: white;
 			height: 50px;
 			position: fixed;
 			bottom: 0;
 			width: 100%;
+		}
+		img {
+			position: fixed;
+			left: 50%;
+			margin-left: -50px;
+			bottom: 45px;
+			width: 100px;
+			z-index: -1;
+		}
+		.bg {
+			width: 3000px;
+			height: 100%;
 		}
 	</style>
 	<script type="text/javascript">
@@ -35,7 +52,10 @@
 	</script>
 </head>
 <body>
+	<div class="bg"></div>
 	<canvas id="canvas"></canvas>
 	<div class="ground"></div>
+	<img src="css/images/jimmy.png">
+	<div class="panel-control"></div>
 </body>
 </html>

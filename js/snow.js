@@ -2,6 +2,22 @@ window.Snow = (function () {
 	var W, H, ctx;
 	// particle setting
 	var mp = 25, particles = [], angle = 2;//max particles
+	// weather
+	var speed = 2, weight = 1;
+	var timeline;
+
+	var setMP = function (val) {
+		mp = val;
+		generateParticle();
+	}
+
+	var setSpeed = function (val) {
+		speed = val;
+	}
+
+	var setWeight = function (val) {
+		weight = val;
+	}
 
 	var winSetting = function () {
 		//canvas dimensions
@@ -9,6 +25,8 @@ window.Snow = (function () {
 		H = window.innerHeight;
 		canvas.width = W;
 		canvas.height = H;
+		//不够优雅
+		$('.bg').css('height', H + "px");
 	}
 
 
@@ -43,8 +61,8 @@ window.Snow = (function () {
 			//Every particle has its own density which can be used to make the downward movement different for each flake
 			//Lets make it more random by adding in the radius
 			//p.y += Math.cos(angle+p.d) + 1 + p.r/2;
-            p.y += Math.cos(angle) + 1 + p.r/2;
-            p.x += Math.sin(angle) * 2;
+            p.y += Math.cos(angle) + weight + p.r/2;
+            p.x += Math.sin(angle) * speed;
 			
 			//Sending flakes back from the top when it exits
 			//Lets make it a bit more organic and let flakes enter from the left and right also.
@@ -62,7 +80,6 @@ window.Snow = (function () {
 		ctx.clearRect(0, 0, W, H);
 		
 		ctx.fillStyle = "rgba(255, 255, 255, 1)";
-        // 开始绘制路径
 		ctx.beginPath();
 		for(var i = 0; i < mp; i++)
 		{
@@ -82,11 +99,14 @@ window.Snow = (function () {
 	}
 
 	var snowStart = function () {
-		setInterval(draw, 33);
+		timeline = setInterval(draw, 33);
 	}
 
 	return {
 		init: init,
-		redraw: redraw
+		redraw: redraw,
+		setSpeed: setSpeed,
+		setWeight: setWeight,
+		setMP: setMP
 	}
 })()
