@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/snow.js"></script>
+	<style type="text/css">
+		/*Simple reset*/
+		* {margin: 0; padding: 0;}
+
+		body {
+			/*You can use any kind of background here.*/
+			background: #6b92b9;
+			position: relative;
+		}
+		canvas {
+			display: block;
+		}
+		.ground {
+			background: url("css/images/texture.jpg") repeat;
+			height: 50px;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function () {
+			Snow.init('canvas');
+
+			$(window).on('resize', function () {
+				Snow.redraw();
+			})
+		})
+	</script>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<div class="ground"></div>
+</body>
+</html>
