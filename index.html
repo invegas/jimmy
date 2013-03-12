@@ -30,10 +30,8 @@
 			bottom: 0;
 			width: 100%;
 		}
-		img {
+		.person {
 			position: fixed;
-/*			left: 50%;
-			margin-left: -50px;*/
 			bottom: 45px;
 			width: 100px;
 			z-index: -1;
@@ -41,6 +39,12 @@
 		.bg {
 			width: 7000px;
 			height: 100%;
+		}
+		.bg-item {
+			width: 1000px;
+			height: 100%;
+			position: absolute;
+			z-index: -2;
 		}
 		.panel-control {
 			position: fixed;
@@ -54,8 +58,21 @@
 		}
 	</style>
 	<script type="text/javascript">
+
 		$(function () {
-			Snow.init('canvas');
+			$('.bg-item').each(function () {
+
+				// init color
+				var color = $(this).attr('data-color');
+				// $(this).css('background-color', '#' + color);
+
+				// init index
+				var index = $(this).attr('data-index');
+				// $(this).css('left', (index - 1) * 1000 + "px");
+
+				// img
+				// $(this).css('background-image', 'url("css/images/bg/00' + index + '.jpg")');
+			})
 
 			var config = {
 				win: $(window),
@@ -65,9 +82,7 @@
 
 			Parallel.init(config);
 
-			$(window).on('resize', function () {
-				Snow.redraw();
-			})
+			Snow.init('canvas');
 
 			// 上帝模式
 			$('.btn-god').click(function () {
@@ -106,7 +121,15 @@
 	</script>
 </head>
 <body>
-	<div class="bg"></div>
+	<div class="bg">
+		<div class="bg-1 bg-item" data-color="04f91d" data-index="1" data-img=""></div>
+		<div class="bg-2 bg-item" data-color="0048ff" data-index="2" data-img=""></div>
+		<div class="bg-3 bg-item" data-color="ff0015" data-index="3" data-img=""></div>
+		<div class="bg-4 bg-item" data-color="00e9ff" data-index="4" data-img=""></div>
+		<div class="bg-5 bg-item" data-color="04f91d" data-index="5" data-img=""></div>
+		<div class="bg-6 bg-item" data-color="0048ff" data-index="6" data-img=""></div>
+		<div class="bg-7 bg-item" data-color="ff0015" data-index="7" data-img=""></div>
+	</div>
 	<canvas id="canvas"></canvas>
 	<div class="ground"></div>
 	<img src="css/images/jimmy.png" class="person">

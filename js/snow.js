@@ -20,7 +20,7 @@ window.Snow = (function () {
 	}
 
 	var winSetting = function () {
-		
+
 		//canvas dimensions
 		W = window.innerWidth; 
 		H = window.innerHeight;
@@ -39,6 +39,10 @@ window.Snow = (function () {
 		winSetting();
 		generateParticle();
 		snowStart();
+
+		$(window).on('resize', function () {
+			redraw();
+		})
 	}
 
 	var generateParticle = function () {
