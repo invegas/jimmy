@@ -1,4 +1,4 @@
-window.parael = (function () {
+window.Parallel = (function () {
 	var progress = 0, total, innerWidth, person, win, offsetx;
 
 	var scrollInit = function () {
