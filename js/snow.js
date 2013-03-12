@@ -1,7 +1,7 @@
 window.Snow = (function () {
 	var W, H, ctx;
 	// particle setting
-	var mp = 25, particles = [], angle = 2;//max particles
+	var mp = 30, particles = [], angle = 2;//max particles
 	// weather
 	var speed = 2, weight = 1;
 	var timeline;
