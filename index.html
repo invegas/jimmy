@@ -4,6 +4,8 @@
 	<title></title>
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/snow.js"></script>
+	<script type="text/javascript" src="js/bootstrap-button.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<style type="text/css">
 		/*Simple reset*/
 		* {margin: 0; padding: 0;}
@@ -37,8 +39,18 @@
 			z-index: -1;
 		}
 		.bg {
-			width: 3000px;
+			width: 5000px;
 			height: 100%;
+		}
+		.panel-control {
+			position: fixed;
+			top: 10px;
+			left: 300px;
+			/*width: 280px;*/
+			width: 130px;
+		}
+		.panel-row {
+			margin-bottom: 15px;
 		}
 	</style>
 	<script type="text/javascript">
@@ -48,6 +60,42 @@
 			$(window).on('resize', function () {
 				Snow.redraw();
 			})
+
+			// 上帝模式
+			$('.btn-god').click(function () {
+				var swh = $(this).attr('data-switch');
+				if (swh === "off") {
+					$(this).attr('data-switch', 'on');
+					$(this).text('关闭上帝模式');
+					$('.panel-control').css('width', '280px');
+
+				} else {
+					$(this).attr('data-switch', 'off');
+					$(this).text('开启上帝模式');
+					$('.panel-control').css('width', '130px');
+				}
+				$('.panel-control .modal-body').toggle();
+			})
+
+			// 风俗
+			$('.btn-group-speed .btn').click(function () {
+				var val = parseInt($(this).attr('data-value'));
+				Snow.setSpeed(val);
+			})
+
+			// 雪的大小
+			$('.btn-group-mp .btn').click(function () {
+				var val = parseInt($(this).attr('data-value'));
+				Snow.setMP(val);
+			})
+
+			// 雪的重量
+			$('.btn-group-weight .btn').click(function () {
+				var val = parseInt($(this).attr('data-value'));
+				Snow.setWeight(val);
+			})
+
+
 		})
 	</script>
 </head>
@@ -56,6 +104,35 @@
 	<canvas id="canvas"></canvas>
 	<div class="ground"></div>
 	<img src="css/images/jimmy.png">
-	<div class="panel-control"></div>
+	<div class="panel-control modal">
+		<div class="modal-header">
+			<button class="btn btn-god btn-small" data-switch="off">开启上帝模式</button>
+		</div>
+		<div class="modal-body hide">
+			<div class="panel-row">
+				<div class="btn-group btn-group-speed" data-toggle="buttons-radio">
+				 	<button type="button" class="btn" data-value="0">无风</button>
+				  	<button type="button" class="btn active" data-value="3">微风</button>
+				  	<button type="button" class="btn" data-value="10">大风</button>
+				  	<button type="button" class="btn btn-danger" data-value="30">被吹走了</button>
+				</div>
+			</div>
+			<div class="panel-row">
+				<div class="btn-group btn-group-mp" data-toggle="buttons-radio">
+				 	<button type="button" class="btn" data-value="0">学停了</button>
+				  	<button type="button" class="btn active" data-value="30">小雪</button>
+				  	<button type="button" class="btn" data-value="100">大雪</button>
+				  	<button type="button" class="btn btn-danger" data-value="500">暴风雪</button>
+				</div>
+			</div>			
+			<div class="panel-row">
+				<div class="btn-group btn-group-weight" data-toggle="buttons-radio">
+				 	<button type="button" class="btn" data-value="-5">文艺雪</button>
+				  	<button type="button" class="btn active" data-value="1">普通雪</button>
+				  	<button type="button" class="btn btn-danger" data-value="10">冰雹</button>
+				</div>
+			</div>			
+		</div>
+	</div>
 </body>
 </html>
