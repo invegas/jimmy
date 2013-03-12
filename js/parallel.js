@@ -1,14 +1,19 @@
 window.Parallel = (function () {
-	var progress = 0, total, innerWidth, person, win, offsetx;
+	var progress = 0, total, innerWidth, person, person_w, win, offsetx;
 
 	var scrollInit = function () {
+		// window.scrollTo(0, 0);
 		// $(window).scrollLeft(0);
-		document.location.href = "#";
+		// document.location.href = "#";
+		setTimeout (function () {
+			scrollTo(0,0);
+		}, 0);
 	}	
 
 	var initSetting = function (cfg) {
 		win = cfg.win;
 		person = cfg.person;
+		person_w = parseInt(person.css('width'));
 		total = cfg.total;
 		innerWidth = $(window).innerWidth();
 	}
@@ -30,7 +35,7 @@ window.Parallel = (function () {
 	}
 
 	var walk = function () {
-		person.css('left', (innerWidth - 50) * (1 - progress) + "px");
+		person.css('left', (innerWidth - person_w) * (1 - progress) + "px");
 	}
 
 	var onProgress = function () {
@@ -40,6 +45,7 @@ window.Parallel = (function () {
 	}
 
 	return {
-		init: init
+		init: init,
+		scrollInit: scrollInit
 	}
 })()

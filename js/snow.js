@@ -20,11 +20,13 @@ window.Snow = (function () {
 	}
 
 	var winSetting = function () {
+		
 		//canvas dimensions
 		W = window.innerWidth; 
 		H = window.innerHeight;
 		canvas.width = W;
 		canvas.height = H;
+
 		//不够优雅
 		$('.bg').css('height', H + "px");
 	}
