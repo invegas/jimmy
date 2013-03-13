@@ -27,7 +27,7 @@
 			-webkit-transition:all 1000ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s; 
 		}
 		.ground {
-			/*background: url("css/images/texture.jpg") repeat;*/
+			/* background: url("css/images/texture.jpg") repeat; */
 			background: white;
 			height: 50px;
 			position: fixed;
@@ -103,20 +103,17 @@
 
 		$(function () {
 			$('.bg-item').each(function (index, el) {
-
-				// init color
-				// var color = $(this).attr('data-color');
-				// $(this).css('background-color', '#' + color);
-
-				// init index
-				var index = $(this).attr('data-index');
-				$(this).css('left', (index - 1) * 1000 + "px");
-
-				// img
-				// $(this).css({
-				// 	'background-image': 'url("css/images/bg/00' + index + '.jpg")',
-				// 	'background-position': '0px 50%'
-				// })
+				var index = $(this).attr('data-index'), distance;
+				if (index) {
+					$(this).css('left', (index - 1) * 1000 + "px");	
+					distance = (index - 1) * 1000;
+					// img
+					$(this).css({
+						'background-image': 'url("css/images/bg/backup/00' + index + '.jpg")',
+						'background-position-y': "50%",
+						'background-position-x': distance + "px"
+					})					
+				}
 
 			})
 
@@ -170,13 +167,13 @@
 </head>
 <body class="is-animate">
 	<div class="bg">
-		<div class="bg-1 bg-item" data-color="04f91d" data-index="1"></div>
-		<div class="bg-2 bg-item" data-color="0048ff" data-index="2"></div>
+		<div class="bg-1 bg-item" data-color="04f91d"></div>
+		<div class="bg-2 bg-item" data-color="0048ff"></div>
 		<div class="bg-3 bg-item" data-color="ff0015" data-index="3"></div>
-		<div class="bg-4 bg-item" data-color="00e9ff" data-index="4"></div>
-		<div class="bg-5 bg-item" data-color="04f91d" data-index="5"></div>
-		<div class="bg-6 bg-item" data-color="0048ff" data-index="6"></div>
-		<div class="bg-7 bg-item" data-color="ff0015" data-index="7"></div>
+		<div class="bg-4 bg-item" data-color="00e9ff"></div>
+		<div class="bg-5 bg-item" data-color="04f91d"></div>
+		<div class="bg-6 bg-item" data-color="0048ff"></div>
+		<div class="bg-7 bg-item" data-color="ff0015"></div>
 	</div>
 	<canvas id="canvas"></canvas>
 	<div class="ground"></div>

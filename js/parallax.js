@@ -87,7 +87,6 @@ window.Parallax = (function () {
 
 	var walk = function () {
 		person.css('left', (innerWidth - person_w) * (1 - progress) + "px");
-		// $('.bg-item').css('background-position-x', '+=10px');
 	}
 
 	var speak = function (word) {
@@ -104,10 +103,21 @@ window.Parallax = (function () {
 		$('body').css('background-color', color);
 	}
 
+	var bgPull = function () {
+// $('.bg-item').css('background-position-x', '+=10px');
+	}
+
 	var onProgress = function () {
 	    offsetx = win.scrollLeft();
+	    // var origin = progress;
 	    progress = offsetx / (total - win.innerWidth());
-	    console.log(progress);
+	    // $('.bg-item').css('background-position-x', (1 - progress) * 2000);
+
+	    // if (progress > origin) {
+	    // 	$('.bg-item').css('background-position-x', '-=15px');
+	    // } else {
+	    // 	$('.bg-item').css('background-position-x', '+=15px');
+	    // }
 
 	    // Jimmy walk
 	    walk(); 
@@ -115,6 +125,7 @@ window.Parallax = (function () {
 
 	    // Weather
 	    var percent = progress.toFixed(1);
+	    console.log(percent);
 	    if (timeline[percent]) {
 	    	var cfg = timeline[percent];
 	    	// sky color
