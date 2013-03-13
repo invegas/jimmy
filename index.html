@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/snow.js"></script>
 	<script type="text/javascript" src="js/bootstrap-button.js"></script>
-	<script type="text/javascript" src="js/parallel.js"></script>
+	<script type="text/javascript" src="js/parallax.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<style type="text/css">
 		/*Simple reset*/
@@ -36,6 +36,12 @@
 			width: 100px;
 			z-index: -1;
 		}
+		.face {
+			position: absolute;
+			width: 100px;
+			left: 0;
+			bottom: 0;
+		}
 		.bg {
 			width: 7000px;
 			height: 100%;
@@ -45,6 +51,11 @@
 			height: 100%;
 			position: absolute;
 			z-index: -2;
+			background-repeat: no-repeat;	
+		}
+		.bg-img {
+			position: absolute;
+			left: 0;
 		}
 		.panel-control {
 			position: fixed;
@@ -56,23 +67,52 @@
 		.panel-row {
 			margin-bottom: 15px;
 		}
+		.speech {
+			/*display: none;*/
+			background: white;
+			position: absolute;
+			width: 200px;
+			height: 100px;
+			border-radius: 10px;
+			top: -250px;
+			left: -180px;
+			-webkit-transition:all 300ms cubic-bezier(0.26, 0.86, 0.44, 0.985) 0s;    	
+		}
+		.is-say {
+			top: -100px;
+		}
+		.speech:after {
+			content: '';
+			height: 0;
+			position: absolute;
+			bottom: -20px;
+			left: 155px;
+			border: 10px solid;
+			border-color: white transparent transparent;
+		}
 	</style>
 	<script type="text/javascript">
 
 		$(function () {
-			$('.bg-item').each(function () {
+			$('.bg-item').each(function (index, el) {
 
 				// init color
-				var color = $(this).attr('data-color');
+				// var color = $(this).attr('data-color');
 				// $(this).css('background-color', '#' + color);
 
 				// init index
 				var index = $(this).attr('data-index');
-				// $(this).css('left', (index - 1) * 1000 + "px");
+				$(this).css('left', (index - 1) * 1000 + "px");
 
 				// img
-				// $(this).css('background-image', 'url("css/images/bg/00' + index + '.jpg")');
+				$(this).css({
+					'background-image': 'url("css/images/bg/00' + index + '.jpg")',
+					'background-position': '0px 50%'
+				})
+
 			})
+
+			
 
 			var config = {
 				win: $(window),
@@ -80,7 +120,7 @@
 				total: parseInt($('.bg').css('width'))
 			}
 
-			Parallel.init(config);
+			Parallax.init(config);
 
 			Snow.init('canvas');
 
@@ -122,17 +162,22 @@
 </head>
 <body>
 	<div class="bg">
-		<div class="bg-1 bg-item" data-color="04f91d" data-index="1" data-img=""></div>
-		<div class="bg-2 bg-item" data-color="0048ff" data-index="2" data-img=""></div>
-		<div class="bg-3 bg-item" data-color="ff0015" data-index="3" data-img=""></div>
-		<div class="bg-4 bg-item" data-color="00e9ff" data-index="4" data-img=""></div>
-		<div class="bg-5 bg-item" data-color="04f91d" data-index="5" data-img=""></div>
-		<div class="bg-6 bg-item" data-color="0048ff" data-index="6" data-img=""></div>
-		<div class="bg-7 bg-item" data-color="ff0015" data-index="7" data-img=""></div>
+		<div class="bg-1 bg-item" data-color="04f91d" data-index="1"></div>
+		<div class="bg-2 bg-item" data-color="0048ff" data-index="2"></div>
+		<div class="bg-3 bg-item" data-color="ff0015" data-index="3"></div>
+		<div class="bg-4 bg-item" data-color="00e9ff" data-index="4"></div>
+		<div class="bg-5 bg-item" data-color="04f91d" data-index="5"></div>
+		<div class="bg-6 bg-item" data-color="0048ff" data-index="6"></div>
+		<div class="bg-7 bg-item" data-color="ff0015" data-index="7"></div>
 	</div>
 	<canvas id="canvas"></canvas>
 	<div class="ground"></div>
-	<img src="css/images/jimmy.png" class="person">
+	<div class="person">
+		<img src="css/images/jimmy.png" class="face">
+		<div class="speech">
+			<div class="speech-content"></div>
+		</div>
+	</div>
 	<div class="panel-control modal">
 		<div class="modal-header">
 			<button class="btn btn-god btn-small" data-switch="off">开启上帝模式</button>
