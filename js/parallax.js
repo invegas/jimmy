@@ -109,15 +109,15 @@ window.Parallax = (function () {
 
 	var onProgress = function () {
 	    offsetx = win.scrollLeft();
-	    // var origin = progress;
+	    var origin = progress;
 	    progress = offsetx / (total - win.innerWidth());
 	    // $('.bg-item').css('background-position-x', (1 - progress) * 2000);
 
-	    // if (progress > origin) {
-	    // 	$('.bg-item').css('background-position-x', '-=15px');
-	    // } else {
-	    // 	$('.bg-item').css('background-position-x', '+=15px');
-	    // }
+	    if (progress > origin) {
+	    	$('.bg-item').css('background-position-x', '-=30px');
+	    } else {
+	    	$('.bg-item').css('background-position-x', '+=30px');
+	    }
 
 	    // Jimmy walk
 	    walk(); 
