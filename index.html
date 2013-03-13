@@ -3,16 +3,21 @@
 <head>
 	<title></title>
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/utility.js"></script>
 	<script type="text/javascript" src="js/snow.js"></script>
 	<script type="text/javascript" src="js/bootstrap-button.js"></script>
 	<script type="text/javascript" src="js/parallax.js"></script>
+	<script type="text/javascript">
+		if (!Util.supportCanvas) document.location = "sorry.html";
+	</script>
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<style type="text/css">
 		/*Simple reset*/
 		* {margin: 0; padding: 0;}
 		body {
 			/*You can use any kind of background here.*/
-			background: #6b92b9;
+			/*background: #6b92b9;*/
+			background: #5e879b;
 			position: relative;
 			overflow-y: hidden;
 		}
@@ -72,7 +77,8 @@
 			margin-bottom: 15px;
 		}
 		.speech {
-			opacity: 0;
+			display: none;
+			/*opacity: 0;*/
 			background: white;
 			position: absolute;
 			width: 200px;
@@ -179,7 +185,7 @@
 	<div class="ground"></div>
 	<div class="person">
 		<img src="css/images/jimmy.png" class="face">
-		<div class="speech">
+		<div class="speech hide">
 			<div class="speech-content"></div>
 		</div>
 	</div>

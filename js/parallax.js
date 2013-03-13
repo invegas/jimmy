@@ -2,16 +2,28 @@ window.Parallax = (function () {
 	var progress = 0.0, total, innerWidth, person, person_w, win, offsetx;
 	var level = 0;
 	var timeline = {
-		0.0: {
-			skyColor: "6b92b9"
-		},
-		0.1: {
-			sayWord: "It's cold here, and It's going to dark"
-		},
 		0.2: {
-			skyColor: "black",
-			sayWord: "Look, just as I say"			
-		}
+			skyColor: "#5e879b"		
+		},
+		0.3: {
+			skyColor: "#41677a"
+		},
+		0.4: {
+			skyColor: "#224757"
+		},
+		0.5: {
+			skyColor: "#032435"
+		},
+		0.6: {
+			skyColor: "#224757"
+		},
+		0.7: {
+			skyColor: "#41677a"
+		},
+		0.8: {
+			skyColor: "#5e879b"
+		}							
+
 	}
 
 	var scrollInit = function () {
@@ -90,16 +102,16 @@ window.Parallax = (function () {
 	}
 
 	var speak = function (word) {
-		$('.speech').addClass('is-say');
+		$('.speech').slideDown(300);
 		$('.speech-content').text(word);		
 	}
 
 	var shutup = function () {
-		$('.speech').removeClass('is-say');		
+		$('.speech').slideUp(300);
 	}
 
 	var skyColorChange = function (color) {
-		if (!color) var color = '#6b92b9';
+		if (!color) var color = '#5e879b';
 		$('body').css('background-color', color);
 	}
 
@@ -124,7 +136,7 @@ window.Parallax = (function () {
 	    // I need a bus !!!
 
 	    // Weather
-	    var percent = progress.toFixed(1);
+	    var percent = Util.myFixed(progress, 1);
 	    console.log(percent);
 	    if (timeline[percent]) {
 	    	var cfg = timeline[percent];
@@ -135,9 +147,11 @@ window.Parallax = (function () {
 
 	    	// say something
 	    	if (cfg.sayWord) {
-	    		$('.speech').addClass('is-say');
-				$('.speech-content').text(cfg.sayWord);
+	    		speak(cfg.sayWord);
+	    	} else {
+
 	    	}
+
 	    } else {
 	    	shutup();
 	    	skyColorChange();
