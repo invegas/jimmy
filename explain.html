@@ -1,0 +1,176 @@
+这个demo的想法来源于另一个demo, http://thecodeplayer.com/walkthrough/html5-canvas-snow-effect,
+有关粒子算法也是照搬它的，我只是做了一些修改，比如让雪只允许从左往右飘动，使雪的数量， 速度可控
+
+雪
+
+下面是面向过程的代码（网页中我已经模块化了，不易于讲解），详细的解释都在注解中
+
+window.onload = function(){
+	//获取canvas
+	var canvas = document.getElementById("canvas");
+	var ctx = canvas.getContext("2d");
+	
+	//获取当前浏览器窗口viewport的 长宽
+	// 记得要给document 绑定一个resize事件，每一次resize都要重新更新W 和 H
+	var W = window.innerWidth;
+	var H = window.innerHeight;
+	//并且赋值给 canvas, canvas的长宽必须作为tag的属性而不是css可控的
+	canvas.width = W;
+	canvas.height = H;
+	
+	//开始生成粒子
+	var mp = 25; //最大粒子数
+	var particles = [];
+	// 生成粒子，存入一个数组中
+	for(var i = 0; i < mp; i++)
+	{
+		particles.push({
+			//每个粒子的属性有
+			x: Math.random()*W, //随机x坐标 根据浏览器宽
+			y: Math.random()*H, //随机Y坐标 根据浏览器高
+			r: Math.random()*4+1, //粒子半径 随机生成
+			d: Math.random()*mp //粒子重量
+		})
+	}
+	
+	// 绘制当前帧
+	function draw()
+	{
+		ctx.clearRect(0, 0, W, H);
+		
+		ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+		ctx.beginPath();
+		for(var i = 0; i < mp; i++)
+		{
+			var p = particles[i];
+			ctx.moveTo(p.x, p.y);
+			ctx.arc(p.x, p.y, p.r, 0, Math.PI*2, true);
+		}
+		ctx.fill();
+		// 到这里为止以上都是基本的canvas的API，在这里就不详解了，谷歌canvas的API文档吧
+
+		// 更新下一帧
+		update();
+	}
+	
+
+	// 绘制下一帧
+	function update()
+	{
+        angle = 2;
+		for(var i = 0; i < mp; i++)
+		{
+			var p = particles[i];
+
+			// 单位时间内，Y轴方向移动距离越大，纵向速度越快（粒子越重）
+			// 并且考虑到透视，越大的粒子里用户越近，纵向速度应该越快；反之，越小的粒子越慢
+            p.y += Math.cos(angle) + weight + p.r/2;
+            // 单位时间内，X轴方向移动距离越大，纵向速度越快 （风速）
+            p.x += Math.sin(angle) * speed;
+			
+            // 如果此时粒子的位置已经到画面外了（右下方），要重新让他们的位置回到屏幕的左上方
+            if(p.x > W || p.x < 0 || p.y > H) {
+            	// 还有一个问题需要处理
+            	// 可以想象，如果粒子总是往右飘动，那么左下角会出现一块空白, 所以
+
+            	// 三分之二的粒子 从距屏幕上方10px 处进行掉落，并且横向允许随机
+                if (i%3 > 0) {
+                    particles[i] = {x: Math.random()*W, y: -10, r: p.r, d: p.d};
+                } else {
+                // 三分之一的粒子，为了弥补左下方的空白，强制从X轴掉落，Y轴随意
+                    particles[i] = {x: 0, y: Math.random()*H, r: p.r, d: p.d};
+                }
+            }
+		}
+	}
+	
+	//FPS: 33
+	setInterval(draw, 33);
+}
+
+parallax
+
+这是一个去年比较火的技术，效果惊艳，但才被人发现
+我觉得一点难度都没有，这个技术就不详解了
+
+推荐一个nutplusde的入门教程
+再推荐一个js插件
+再推荐几个优秀的parallax网站
+
+首先要让浏览器在网页载入的时候滚动最左方，但是chrome浏览器有个麻烦的地方在于，如果你滚动到某个位置
+然后刷新页面，浏览器会记录那个位置，自动帮你滚动到那个位置，首先要解决这个问题
+jquery 的 scrollLeft(0), document.location = "#" 都不好使，最终的办法是
+
+		setTimeout (function () {
+			scrollTo(0,0);
+		}, 100);
+
+首先让浏览器翻“滚”吧，100毫秒之后我再把你重置了！
+
+有几点心得可以谈谈
+1.最初尝试parallax的时候，尝试过判断用户向左滑动或者向右滑动，然后再用+=10 -=10之类的代码
+控制，但这样的结果会非常狼狈。
+我后来的做法是推到出一个公式，然后根据viewport的width，height
+页面的offset，可能还需要相对移动物品的height和width
+
+2.保证在resize的时候，保证innerHeight，innerWidth能同时得到更新，并且再用公式同时更新一遍位置
+
+3.在demo中有一个段落是，背景跟着滚动，我的初衷是：
+	当用户滚动到那个容器时（那个容器即将进入屏幕的右边缘），容器背景的background-position-能恰好为0
+（parallax的诀窍在于控制背景图片的background-position），这样用户刚好能看到背景图片，并且在用户滚动
+的时候能不断的更新图片的position，在容器从左侧滚出时，背景图片也刚好滚动完毕，
+	但是这个算法失败了，必须用background-repeat属性来掩饰
+
+
+	timeline
+
+	下面是我的时间轴对象，每一个key对应此时此刻应该发生的事件，包括，应该说的话，天空的颜色，灯光的强度
+	
+	var timeline = {
+		0.1: {
+			sayWord:"It's cold here, and it's going to dark, I need move on."
+		},
+		0.2: {
+			skyColor: "#032435",
+			light: 0.2
+		},
+		0.3: {
+			skyColor: "#032435",
+			light: 0.7,
+			sayWord: "It remind me ofsomething...the first time I met her."
+		},
+		0.4: {
+			skyColor: "#032435",
+			light: 1
+		},
+		0.5: {
+			skyColor: "#032435",
+			light: 1,
+			sayWord: "However...everything is gone."
+		},
+		0.6: {
+			skyColor: "#032435",
+			light: 1
+		},
+		0.7: {
+			skyColor: "#41677a",
+			light: 0.7,
+			sayWord: "......"
+		},
+		0.8: {
+			skyColor: "#5e879b",
+			light: 0.2
+		}							
+
+	}
+	我用一个函数监听页面的scroll事件，并且用一个公式计算出当前的页面滚动进度(progress)，
+	精确到小数点后面一位
+	一旦发现时间轴中的此刻存在时if (timeline[progress]) 就依次执行该说的话，改变天气的颜色
+	改变路灯的颜色
+
+
+
+
+
+
+
